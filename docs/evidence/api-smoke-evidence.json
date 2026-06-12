@@ -1,0 +1,21 @@
+﻿{
+    "captured_at":  "2026-06-12T21:42:30.4308956Z",
+    "health_status":  "healthy",
+    "openapi_paths":  17,
+    "registered_user_id":  "0d98dc64-c187-4157-9ccb-60ec5ff5ecc4",
+    "login_token_type":  "bearer",
+    "session_count_for_user":  2,
+    "mfa_enabled_after_verify":  true,
+    "admin_user_id":  "70c73ebc-2bf7-4aa8-b9b8-9256c95fa9d9",
+    "permission_created":  "admin:manage:20260612224226",
+    "role_created":  "evidence-admin-20260612224226",
+    "admin_users_sample_count":  5,
+    "audit_sample_count":  10,
+    "audit_event_types_sample":  [
+                                     "rbac.user_role.assigned",
+                                     "rbac.role_permission.assigned",
+                                     "rbac.role.created",
+                                     "rbac.permission.created",
+                                     "auth.login.success"
+                                 ]
+}
