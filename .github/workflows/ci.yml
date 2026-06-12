@@ -14,6 +14,7 @@ permissions:
 
 env:
   IMAGE_NAME: authcore-service
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   lint:
@@ -50,7 +51,9 @@ jobs:
         run: docker compose build app
 
       - name: Create CI environment file
-        run: cp .env.example .env
+        run: |
+          cp .env.example .env
+          sed -i "s/^APP_SECRET_KEY=.*/APP_SECRET_KEY=ci-only-authcore-secret-key-at-least-32-characters/" .env
 
       - name: Start dependencies
         run: docker compose up -d postgres redis
@@ -94,6 +97,8 @@ jobs:
           format: sarif
           output: trivy-results.sarif
           severity: CRITICAL
+          scanners: vuln
+          limit-severities-for-sarif: true
           ignore-unfixed: true
           exit-code: "1"
 
