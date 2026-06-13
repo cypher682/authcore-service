@@ -168,6 +168,9 @@ Render deployment is prepared but the live URL is not added yet.
 - Docker startup honors Render's `PORT` environment variable.
 - Alembic migration assets are included in the runtime image.
 - `RUN_MIGRATIONS_ON_START=true` runs `alembic upgrade head` before Uvicorn.
+- Use `postgresql+asyncpg://...` for `DATABASE_URL` on Render.
+- Use the same managed Redis URL for `REDIS_URL`, `CELERY_BROKER_URL`, and `CELERY_RESULT_BACKEND` unless separate Redis DB indexes are available.
+- The current Render blueprint deploys the API web service only; real external email-provider delivery and cloud Celery worker deployment are deferred.
 - Deployment guide: `docs/deployment/render.md`
 
 ## Security Notes
@@ -188,3 +191,4 @@ Core implementation is complete. Remaining evidence work:
 - Trivy SARIF artifact or scan proof from the `trivy` job.
 - Postman/Swagger UI demo screenshots listed in `docs/evidence/evidence-capture-guide.md`.
 - Live deployment URL after Render deployment.
+- Render dashboard/log screenshots after first successful deploy.

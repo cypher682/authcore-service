@@ -1,6 +1,6 @@
 # CI Evidence
 
-Captured on 2026-06-12 after adding the service workflow at `.github/workflows/ci.yml`.
+Captured after stabilizing the service workflow at `.github/workflows/ci.yml`.
 
 ## Workflow Gates
 
@@ -14,8 +14,8 @@ Captured on 2026-06-12 after adding the service workflow at `.github/workflows/c
 
 - Repository: `https://github.com/cypher682/authcore-service`
 - Workflow: `https://github.com/cypher682/authcore-service/actions/workflows/ci.yml`
-- Passing run: `https://github.com/cypher682/authcore-service/actions/runs/27447084549`
-- Final green commit: `96d4423 Stabilize CI test and scan jobs`
+- Latest passing run: `https://github.com/cypher682/authcore-service/actions/runs/27479438565`
+- Final green commit: `a958736 Add email verification and password reset flows`
 
 ## Local Validation
 

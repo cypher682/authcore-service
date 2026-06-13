@@ -1,6 +1,6 @@
 # AuthCore Evidence Pack
 
-Captured on 2026-06-12 for the F2 `authcore-service` build.
+Captured during the F2 `authcore-service` build.
 
 ## Available Evidence
 
@@ -16,6 +16,7 @@ Captured on 2026-06-12 for the F2 `authcore-service` build.
 - Docker stack health: `app`, `celery_worker`, `postgres`, and `redis` were healthy.
 - Public API surface: `/health` and `/openapi.json`.
 - Auth flow: register, login, bearer token response, refresh-compatible token issuance.
+- Account recovery: email verification and password reset token flows are implemented with hashed stored tokens.
 - Session tracking: user session listing after register/login.
 - MFA: setup and TOTP verification enabled MFA for the evidence user.
 - Admin/RBAC: superuser admin created a permission and role, attached permission to role, and assigned role to user.
@@ -28,5 +29,6 @@ Captured on 2026-06-12 for the F2 `authcore-service` build.
 - Postman or Insomnia demo screenshots for portfolio presentation.
 - Local browser demo screenshots from `../demo/index.html`.
 - Live deployment URL once hosting is configured.
+- Render dashboard and startup log screenshots after the first successful live deploy.
 
 Use `evidence-capture-guide.md` as the capture checklist.
