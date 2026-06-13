@@ -136,6 +136,7 @@ After Render deployment:
 
 - Capture the live `/health` endpoint.
 - Capture live `/docs`.
+- Capture Render deploy logs showing startup.
 - Add the live URL to `README.md` and this evidence pack.
 
 ## Commands To Reproduce Evidence

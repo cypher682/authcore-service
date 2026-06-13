@@ -8,6 +8,7 @@ Captured on 2026-06-12 for the F2 `authcore-service` build.
 - `ci-evidence.md` documents the local CI-equivalent checks run before handing off Step 14.
 - `evidence-capture-guide.md` lists the screenshots and artifacts to capture before drafting portfolio content.
 - `authcore.postman_collection.json` is a Postman collection for the portfolio demo flow.
+- `../deployment/render.md` documents the Render deployment steps and required environment variables.
 
 ## Verified Capabilities
 

@@ -33,8 +33,12 @@ COPY --from=builder /install /usr/local
 RUN groupadd --gid 1001 appgroup && \
     useradd --uid 1001 --gid appgroup --shell /bin/bash --create-home appuser
 
-# Copy application code
+# Copy application code and migration assets
 COPY --chown=appuser:appgroup app/ ./app/
+COPY --chown=appuser:appgroup alembic/ ./alembic/
+COPY --chown=appuser:appgroup alembic.ini ./alembic.ini
+COPY --chown=appuser:appgroup scripts/ ./scripts/
+RUN chmod +x /app/scripts/start.sh
 
 # Switch to non-root
 USER appuser
@@ -45,4 +49,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["/app/scripts/start.sh"]

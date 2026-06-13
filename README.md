@@ -109,6 +109,11 @@ Evidence lives in `docs/evidence/`.
 | Evidence capture guide | `docs/evidence/evidence-capture-guide.md` |
 | Postman collection | `docs/evidence/authcore.postman_collection.json` |
 
+Deployment guide:
+
+- Render deployment: `docs/deployment/render.md`
+- Render blueprint: `render.yaml`
+
 Current validation:
 
 - `10 passed`
@@ -129,6 +134,15 @@ Jobs:
 - `test`: Docker Compose dependency startup, Alembic migration, pytest coverage.
 - `docker-build`: runtime image build.
 - `trivy`: CRITICAL vulnerability scan with SARIF upload.
+
+## Deployment
+
+Render deployment is prepared but the live URL is not added yet.
+
+- Docker startup honors Render's `PORT` environment variable.
+- Alembic migration assets are included in the runtime image.
+- `RUN_MIGRATIONS_ON_START=true` runs `alembic upgrade head` before Uvicorn.
+- Deployment guide: `docs/deployment/render.md`
 
 ## Security Notes
 
