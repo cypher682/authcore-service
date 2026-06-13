@@ -9,6 +9,7 @@ const state = {
   permissionId: "",
   sessionId: "",
   mfaSecret: "",
+  mfaChallengeToken: "",
 };
 
 const elements = {
@@ -157,6 +158,11 @@ async function loginUser() {
   });
 
   if (result.response.ok) {
+    if (result.data.mfa_required) {
+      state.mfaChallengeToken = result.data.challenge_token;
+      return;
+    }
+
     state.accessToken = result.data.access_token;
     state.refreshToken = result.data.refresh_token;
   }
@@ -246,6 +252,21 @@ async function verifyMfa() {
     token: state.accessToken,
     body: { code },
   });
+}
+
+async function verifyLoginChallenge() {
+  const code = await generateTotp(state.mfaSecret);
+  const result = await apiRequest("Verify Login Challenge", "POST", "/api/v1/auth/mfa/challenge/verify", {
+    body: {
+      challenge_token: state.mfaChallengeToken,
+      code,
+    },
+  });
+
+  if (result.response.ok) {
+    state.accessToken = result.data.access_token;
+    state.refreshToken = result.data.refresh_token;
+  }
 }
 
 async function disableMfa() {
@@ -397,6 +418,7 @@ function bindActions() {
     reuseOldRefresh,
     setupMfa,
     verifyMfa,
+    verifyLoginChallenge,
     disableMfa,
     listSessions,
     revokeSession,

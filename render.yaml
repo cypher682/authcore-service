@@ -20,6 +20,8 @@ services:
         value: 15
       - key: JWT_REFRESH_TOKEN_EXPIRE_DAYS
         value: 7
+      - key: MFA_CHALLENGE_EXPIRE_MINUTES
+        value: 5
       - key: JWT_ALGORITHM
         value: HS256
       - key: RATE_LIMIT_DEFAULT

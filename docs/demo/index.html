@@ -70,9 +70,10 @@
         <div class="actions">
           <button id="setupMfa">Setup MFA</button>
           <button id="verifyMfa">Verify MFA Automatically</button>
+          <button id="verifyLoginChallenge">Verify Login Challenge</button>
           <button id="disableMfa">Disable MFA Automatically</button>
         </div>
-        <p class="hint">The browser generates the TOTP code from the returned secret, but the displayed secret is masked.</p>
+        <p class="hint">After MFA is enabled, Login User returns an MFA challenge instead of bearer tokens. Click Verify Login Challenge to exchange it for tokens.</p>
       </section>
 
       <section class="panel">

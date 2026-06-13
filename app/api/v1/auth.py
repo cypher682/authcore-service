@@ -7,12 +7,19 @@ from app.models.user import User
 from app.schemas.auth import (
     AuthResponse,
     LoginRequest,
+    MFAChallengeResponse,
+    MFAChallengeVerifyRequest,
     RefreshTokenRequest,
     RegisterRequest,
     TokenPair,
 )
 from app.schemas.mfa import MFAVerifyRequest, MFASetupResponse, MFAStatusResponse
-from app.services.auth_service import login_user, refresh_tokens, register_user
+from app.services.auth_service import (
+    login_user,
+    refresh_tokens,
+    register_user,
+    verify_mfa_challenge,
+)
 from app.services.mfa_service import disable_mfa, setup_mfa, verify_mfa_setup
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -38,17 +45,33 @@ async def register(
     )
 
 
-@router.post("/login", response_model=AuthResponse)
+@router.post("/login", response_model=AuthResponse | MFAChallengeResponse)
 @limiter.limit(settings.rate_limit_auth)
 async def login(
     request: Request,
     payload: LoginRequest,
     session: AsyncSessionDep,
-) -> AuthResponse:
+) -> AuthResponse | MFAChallengeResponse:
     return await login_user(
         session,
         email=payload.email,
         password=payload.password,
+        ip_address=request.client.host if request.client else None,
+        user_agent=request.headers.get("user-agent"),
+    )
+
+
+@router.post("/mfa/challenge/verify", response_model=AuthResponse)
+@limiter.limit(settings.rate_limit_sensitive)
+async def mfa_challenge_verify(
+    request: Request,
+    payload: MFAChallengeVerifyRequest,
+    session: AsyncSessionDep,
+) -> AuthResponse:
+    return await verify_mfa_challenge(
+        session,
+        challenge_token=payload.challenge_token,
+        code=payload.code,
         ip_address=request.client.host if request.client else None,
         user_agent=request.headers.get("user-agent"),
     )

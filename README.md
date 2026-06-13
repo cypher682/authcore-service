@@ -17,7 +17,7 @@ This is the first flagship project in the Cypher portfolio build. It targets bac
 - Redis-backed rate limiting and account/IP brute-force lockout.
 - Admin APIs for users, roles, permissions, RBAC checks, and audit log queries.
 - Docker Compose stack with FastAPI, PostgreSQL, Redis, and Celery worker.
-- Pytest suite with 85% coverage.
+- Pytest suite with 83% coverage.
 - GitHub Actions CI for lint, format, tests, Docker build, and Trivy CRITICAL scan.
 
 ## Tech Stack
@@ -58,6 +58,7 @@ FastAPI app
 | `POST` | `/api/v1/auth/refresh` | Rotate refresh token |
 | `POST` | `/api/v1/auth/mfa/setup` | Create/reuse pending TOTP setup |
 | `POST` | `/api/v1/auth/mfa/verify` | Enable MFA with current TOTP code |
+| `POST` | `/api/v1/auth/mfa/challenge/verify` | Exchange MFA challenge and TOTP code for tokens |
 | `POST` | `/api/v1/auth/mfa/disable` | Disable MFA with current TOTP code |
 | `GET` | `/api/v1/users/me/sessions` | List current user's sessions |
 | `DELETE` | `/api/v1/users/me/sessions/{session_id}` | Revoke a user session |
@@ -117,8 +118,8 @@ Deployment guide:
 
 Current validation:
 
-- `10 passed`
-- `85%` coverage
+- `11 passed`
+- `83%` coverage
 - Ruff passed
 - Black check passed
 - Docker runtime image build passed
@@ -168,7 +169,7 @@ Render deployment is prepared but the live URL is not added yet.
 - Refresh token reuse revokes the token family.
 - Failed login counters are tracked by account and IP in Redis.
 - Superusers bypass named permission checks; normal users require assigned roles/permissions.
-- Login currently still issues tokens when MFA is enabled; challenge-enforced login is intentionally left as a later refinement.
+- When MFA is enabled, login returns an MFA challenge token instead of bearer tokens. The client must verify the challenge with a current TOTP code before tokens are issued.
 
 ## Portfolio Status
 

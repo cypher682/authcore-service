@@ -75,6 +75,23 @@ def create_refresh_token(
     return encoded_jwt
 
 
+def create_mfa_challenge_token(subject: str | Any) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(
+        minutes=settings.mfa_challenge_expire_minutes
+    )
+    to_encode = {
+        "exp": expire,
+        "sub": str(subject),
+        "type": "mfa_challenge",
+        "jti": str(uuid.uuid4()),
+    }
+
+    encoded_jwt = jwt.encode(
+        to_encode, settings.app_secret_key, algorithm=settings.jwt_algorithm
+    )
+    return encoded_jwt
+
+
 def decode_token(token: str) -> dict[str, Any]:
     """Decodes token and verifies expiration and signature."""
     try:

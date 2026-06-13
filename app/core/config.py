@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     # JWT
     jwt_access_token_expire_minutes: int = 15
     jwt_refresh_token_expire_days: int = 7
+    mfa_challenge_expire_minutes: int = 5
     jwt_algorithm: str = "HS256"
 
     # Celery
