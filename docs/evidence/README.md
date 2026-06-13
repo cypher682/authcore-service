@@ -11,6 +11,22 @@ Captured during the F2 `authcore-service` build.
 - `authcore.postman_collection.json` is a Postman collection for the portfolio demo flow.
 - `../deployment/render.md` documents the Render deployment steps and required environment variables.
 
+## Screenshot Evidence
+
+- `screenshots/01-github-actions-green.png` shows the passing GitHub Actions workflow.
+- `screenshots/02-ci-test-coverage.png` shows local pytest coverage output.
+- `screenshots/03-trivy-scan.png` shows the Trivy scan job output.
+- `screenshots/04-docker-containers-healthy.png` shows Docker Compose services running healthy.
+- `screenshots/05-swagger-overview.png` shows the Swagger/OpenAPI auth surface.
+- `screenshots/06-register-login.png` shows the masked register/login response.
+- `screenshots/07-refresh-rotation.png` shows refresh token rotation evidence.
+- `screenshots/08-mfa-setup-verify.png` shows masked MFA setup/verify evidence.
+- `screenshots/09-sessions-list-revoke.png` shows session list/revoke evidence.
+- `screenshots/10-rbac-admins-list.png` shows admin/RBAC evidence.
+- `screenshots/11-audit-logs.png` shows audit log evidence.
+- `screenshots/12-lockout-rate-limit.png` shows lockout/rate-limit evidence.
+- `screenshots/13-live-health-url.png` shows the local health response.
+
 ## Verified Capabilities
 
 - Docker stack health: `app`, `celery_worker`, `postgres`, and `redis` were healthy.
@@ -24,10 +40,6 @@ Captured during the F2 `authcore-service` build.
 
 ## Evidence Still Best Captured Manually
 
-- GitHub Actions run screenshot from the passing workflow.
-- Trivy SARIF artifact or scan output from the GitHub Actions `trivy` job.
-- Postman or Insomnia demo screenshots for portfolio presentation.
-- Local browser demo screenshots from `../demo/index.html`.
 - Live deployment URL once hosting is configured.
 - Render dashboard and startup log screenshots after the first successful live deploy.
 
