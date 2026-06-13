@@ -16,9 +16,10 @@ This is the first flagship project in the Cypher portfolio build. It targets bac
 - Structured audit logs for auth, MFA, RBAC, and session events.
 - Redis-backed rate limiting and account/IP brute-force lockout.
 - Password strength policy with optional HaveIBeenPwned k-anonymity breach checking.
+- Email verification and password reset token flows using Celery email tasks.
 - Admin APIs for users, roles, permissions, RBAC checks, and audit log queries.
 - Docker Compose stack with FastAPI, PostgreSQL, Redis, and Celery worker.
-- Pytest suite with 83% coverage.
+- Pytest suite with 81% coverage.
 - GitHub Actions CI for lint, format, tests, Docker build, and Trivy CRITICAL scan.
 
 ## Tech Stack
@@ -56,8 +57,12 @@ FastAPI app
 |---|---|---|
 | `GET` | `/health` | Service health |
 | `POST` | `/api/v1/auth/register` | Register user and issue tokens |
+| `POST` | `/api/v1/auth/verify-email` | Verify an email address with a token |
+| `POST` | `/api/v1/auth/verify-email/resend` | Resend verification token for an unverified account |
 | `POST` | `/api/v1/auth/login` | Login and issue tokens |
 | `POST` | `/api/v1/auth/refresh` | Rotate refresh token |
+| `POST` | `/api/v1/auth/password/forgot` | Request password reset email |
+| `POST` | `/api/v1/auth/password/reset` | Reset password with a valid token |
 | `POST` | `/api/v1/auth/mfa/setup` | Create/reuse pending TOTP setup |
 | `POST` | `/api/v1/auth/mfa/verify` | Enable MFA with current TOTP code |
 | `POST` | `/api/v1/auth/mfa/challenge/verify` | Exchange MFA challenge and TOTP code for tokens |
@@ -120,8 +125,8 @@ Deployment guide:
 
 Current validation:
 
-- `16 passed`
-- `83%` coverage
+- `18 passed`
+- `81%` coverage
 - Ruff passed
 - Black check passed
 - Docker runtime image build passed
@@ -173,6 +178,7 @@ Render deployment is prepared but the live URL is not added yet.
 - Superusers bypass named permission checks; normal users require assigned roles/permissions.
 - When MFA is enabled, login returns an MFA challenge token instead of bearer tokens. The client must verify the challenge with a current TOTP code before tokens are issued.
 - Registration enforces password strength rules. Optional HaveIBeenPwned range checks can be enabled with `PASSWORD_BREACH_CHECK_ENABLED=true`.
+- Email verification and password reset tokens are stored hashed in PostgreSQL. Password reset revokes existing refresh token families.
 
 ## Portfolio Status
 

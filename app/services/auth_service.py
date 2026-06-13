@@ -1,9 +1,10 @@
 import hashlib
 import secrets
 import uuid
+from datetime import UTC, datetime, timedelta
 
 from fastapi import HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import (
@@ -23,7 +24,12 @@ from app.core.password_policy import (
 from app.models.mfa import MFAConfig
 from app.models.token import RefreshTokenFamily
 from app.models.user import User
-from app.schemas.auth import AuthResponse, MFAChallengeResponse, TokenPair
+from app.schemas.auth import (
+    AuthResponse,
+    MessageResponse,
+    MFAChallengeResponse,
+    TokenPair,
+)
 from app.services.bruteforce_service import (
     check_login_lockout,
     clear_failed_login,
@@ -31,10 +37,18 @@ from app.services.bruteforce_service import (
 )
 from app.services.audit_service import record_audit_event
 from app.services.session_service import create_user_session
+from app.tasks.email_task import send_password_reset_email, send_verification_email
+
+
+PASSWORD_RESET_TOKEN_EXPIRE_MINUTES = 30
 
 
 def _hash_token(token: str) -> str:
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+def _utcnow() -> datetime:
+    return datetime.now(UTC).replace(tzinfo=None)
 
 
 async def _get_user_by_email(session: AsyncSession, email: str) -> User | None:
@@ -71,10 +85,12 @@ async def register_user(
     user = User(
         email=normalized_email,
         hashed_password=hashed_password,
-        verification_token=secrets.token_urlsafe(32),
     )
+    verification_token = secrets.token_urlsafe(32)
+    user.verification_token = _hash_token(verification_token)
     session.add(user)
     await session.flush()
+    send_verification_email.delay(normalized_email, verification_token)
 
     tokens = await _issue_token_pair(session, user)
     await create_user_session(
@@ -92,6 +108,74 @@ async def register_user(
         event_metadata={"email": normalized_email},
     )
     return AuthResponse(user=user, **tokens.model_dump())
+
+
+async def verify_email(
+    session: AsyncSession,
+    *,
+    token: str,
+    ip_address: str | None,
+    user_agent: str | None,
+) -> MessageResponse:
+    result = await session.execute(
+        select(User).where(User.verification_token == _hash_token(token))
+    )
+    user = result.scalar_one_or_none()
+    if user is None:
+        await record_audit_event(
+            session,
+            event_type="auth.email_verification.failure",
+            ip_address=ip_address,
+            user_agent=user_agent,
+            event_metadata={"reason": "invalid_token"},
+            status="failure",
+        )
+        await session.commit()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid email verification token",
+        )
+
+    user.is_verified = True
+    user.verification_token = None
+    await record_audit_event(
+        session,
+        event_type="auth.email_verification.success",
+        user_id=user.id,
+        ip_address=ip_address,
+        user_agent=user_agent,
+        event_metadata={"email": user.email},
+    )
+    await session.flush()
+    return MessageResponse(message="Email verified successfully")
+
+
+async def resend_verification_email(
+    session: AsyncSession,
+    *,
+    email: str,
+    ip_address: str | None,
+    user_agent: str | None,
+) -> MessageResponse:
+    normalized_email = email.lower()
+    user = await _get_user_by_email(session, normalized_email)
+    if user is not None and not user.is_verified:
+        verification_token = secrets.token_urlsafe(32)
+        user.verification_token = _hash_token(verification_token)
+        send_verification_email.delay(normalized_email, verification_token)
+        await record_audit_event(
+            session,
+            event_type="auth.email_verification.resent",
+            user_id=user.id,
+            ip_address=ip_address,
+            user_agent=user_agent,
+            event_metadata={"email": normalized_email},
+        )
+        await session.flush()
+
+    return MessageResponse(
+        message="If the account exists and is unverified, a verification email has been sent"
+    )
 
 
 async def login_user(
@@ -181,6 +265,98 @@ async def login_user(
         event_metadata={"email": user.email},
     )
     return AuthResponse(user=user, **tokens.model_dump())
+
+
+async def forgot_password(
+    session: AsyncSession,
+    *,
+    email: str,
+    ip_address: str | None,
+    user_agent: str | None,
+) -> MessageResponse:
+    normalized_email = email.lower()
+    user = await _get_user_by_email(session, normalized_email)
+    if user is not None and user.is_active:
+        reset_token = secrets.token_urlsafe(32)
+        user.reset_token = _hash_token(reset_token)
+        user.reset_token_expires = _utcnow() + timedelta(
+            minutes=PASSWORD_RESET_TOKEN_EXPIRE_MINUTES
+        )
+        send_password_reset_email.delay(normalized_email, reset_token)
+        await record_audit_event(
+            session,
+            event_type="auth.password_reset.requested",
+            user_id=user.id,
+            ip_address=ip_address,
+            user_agent=user_agent,
+            event_metadata={"email": normalized_email},
+        )
+        await session.flush()
+
+    return MessageResponse(
+        message="If the account exists, a password reset email has been sent"
+    )
+
+
+async def reset_password(
+    session: AsyncSession,
+    *,
+    token: str,
+    password: str,
+    ip_address: str | None,
+    user_agent: str | None,
+) -> MessageResponse:
+    result = await session.execute(
+        select(User).where(User.reset_token == _hash_token(token))
+    )
+    user = result.scalar_one_or_none()
+    if (
+        user is None
+        or user.reset_token_expires is None
+        or user.reset_token_expires < _utcnow()
+    ):
+        await record_audit_event(
+            session,
+            event_type="auth.password_reset.failure",
+            user_id=user.id if user is not None else None,
+            ip_address=ip_address,
+            user_agent=user_agent,
+            event_metadata={"reason": "invalid_or_expired_token"},
+            status="failure",
+        )
+        await session.commit()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid or expired password reset token",
+        )
+
+    try:
+        validate_password_strength(password, email=user.email)
+        await validate_password_not_pwned(password)
+        user.hashed_password = get_password_hash(password)
+    except (PasswordPolicyError, ValueError) as exc:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=str(exc),
+        ) from exc
+
+    user.reset_token = None
+    user.reset_token_expires = None
+    await session.execute(
+        update(RefreshTokenFamily)
+        .where(RefreshTokenFamily.user_id == user.id)
+        .values(is_revoked=True)
+    )
+    await record_audit_event(
+        session,
+        event_type="auth.password_reset.success",
+        user_id=user.id,
+        ip_address=ip_address,
+        user_agent=user_agent,
+        event_metadata={"email": user.email},
+    )
+    await session.flush()
+    return MessageResponse(message="Password reset successfully")
 
 
 async def verify_mfa_challenge(

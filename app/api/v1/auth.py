@@ -6,18 +6,27 @@ from app.core.rate_limit import limiter
 from app.models.user import User
 from app.schemas.auth import (
     AuthResponse,
+    ForgotPasswordRequest,
     LoginRequest,
+    MessageResponse,
     MFAChallengeResponse,
     MFAChallengeVerifyRequest,
     RefreshTokenRequest,
     RegisterRequest,
+    ResendVerificationRequest,
+    ResetPasswordRequest,
     TokenPair,
+    VerifyEmailRequest,
 )
 from app.schemas.mfa import MFAVerifyRequest, MFASetupResponse, MFAStatusResponse
 from app.services.auth_service import (
+    forgot_password,
     login_user,
     refresh_tokens,
     register_user,
+    resend_verification_email,
+    reset_password,
+    verify_email,
     verify_mfa_challenge,
 )
 from app.services.mfa_service import disable_mfa, setup_mfa, verify_mfa_setup
@@ -45,6 +54,36 @@ async def register(
     )
 
 
+@router.post("/verify-email", response_model=MessageResponse)
+@limiter.limit(settings.rate_limit_sensitive)
+async def verify_email_address(
+    request: Request,
+    payload: VerifyEmailRequest,
+    session: AsyncSessionDep,
+) -> MessageResponse:
+    return await verify_email(
+        session,
+        token=payload.token,
+        ip_address=request.client.host if request.client else None,
+        user_agent=request.headers.get("user-agent"),
+    )
+
+
+@router.post("/verify-email/resend", response_model=MessageResponse)
+@limiter.limit(settings.rate_limit_sensitive)
+async def resend_email_verification(
+    request: Request,
+    payload: ResendVerificationRequest,
+    session: AsyncSessionDep,
+) -> MessageResponse:
+    return await resend_verification_email(
+        session,
+        email=payload.email,
+        ip_address=request.client.host if request.client else None,
+        user_agent=request.headers.get("user-agent"),
+    )
+
+
 @router.post("/login", response_model=AuthResponse | MFAChallengeResponse)
 @limiter.limit(settings.rate_limit_auth)
 async def login(
@@ -55,6 +94,37 @@ async def login(
     return await login_user(
         session,
         email=payload.email,
+        password=payload.password,
+        ip_address=request.client.host if request.client else None,
+        user_agent=request.headers.get("user-agent"),
+    )
+
+
+@router.post("/password/forgot", response_model=MessageResponse)
+@limiter.limit(settings.rate_limit_sensitive)
+async def request_password_reset(
+    request: Request,
+    payload: ForgotPasswordRequest,
+    session: AsyncSessionDep,
+) -> MessageResponse:
+    return await forgot_password(
+        session,
+        email=payload.email,
+        ip_address=request.client.host if request.client else None,
+        user_agent=request.headers.get("user-agent"),
+    )
+
+
+@router.post("/password/reset", response_model=MessageResponse)
+@limiter.limit(settings.rate_limit_sensitive)
+async def confirm_password_reset(
+    request: Request,
+    payload: ResetPasswordRequest,
+    session: AsyncSessionDep,
+) -> MessageResponse:
+    return await reset_password(
+        session,
+        token=payload.token,
         password=payload.password,
         ip_address=request.client.host if request.client else None,
         user_agent=request.headers.get("user-agent"),

@@ -694,7 +694,7 @@ Use this as a final checklist after completing the Postman workflow.
 
 - Page: the successful Actions run logs.
 - Open `Test with coverage`.
-- Capture the coverage table showing `16 passed` and at least `80%` coverage.
+- Capture the coverage table showing `18 passed` and at least `80%` coverage.
 
 ### 3. Trivy Scan Proof
 
