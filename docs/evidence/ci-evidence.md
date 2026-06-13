@@ -1,6 +1,6 @@
 # CI Evidence
 
-Captured on 2026-06-12 after adding the repo-root workflow at `.github/workflows/f2-authcore-ci.yml`.
+Captured on 2026-06-12 after adding the service workflow at `.github/workflows/ci.yml`.
 
 ## Workflow Gates
 
@@ -9,6 +9,13 @@ Captured on 2026-06-12 after adding the repo-root workflow at `.github/workflows
 - Docker-first tests: `pytest --cov=app --cov-report=term-missing --cov-fail-under=80 -q`
 - Docker build: `docker build --target runtime`
 - Trivy critical image scan: GitHub Actions job blocks on `CRITICAL` severity findings and uploads SARIF.
+
+## Remote CI
+
+- Repository: `https://github.com/cypher682/authcore-service`
+- Workflow: `https://github.com/cypher682/authcore-service/actions/workflows/ci.yml`
+- Passing run: `https://github.com/cypher682/authcore-service/actions/runs/27447084549`
+- Final green commit: `96d4423 Stabilize CI test and scan jobs`
 
 ## Local Validation
 

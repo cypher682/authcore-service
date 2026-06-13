@@ -6,6 +6,7 @@ Captured on 2026-06-12 for the F2 `authcore-service` build.
 
 - `api-smoke-evidence.json` contains redacted API smoke proof from the running Docker stack. It stores IDs, status values, counts, and event names only; it does not store access tokens, refresh tokens, MFA secrets, or passwords.
 - `ci-evidence.md` documents the local CI-equivalent checks run before handing off Step 14.
+- `evidence-capture-guide.md` lists the screenshots and artifacts to capture before drafting portfolio content.
 - `authcore.postman_collection.json` is a Postman collection for the portfolio demo flow.
 
 ## Verified Capabilities
@@ -20,7 +21,9 @@ Captured on 2026-06-12 for the F2 `authcore-service` build.
 
 ## Evidence Still Best Captured Manually
 
-- GitHub Actions run screenshot after the workflow runs on GitHub.
-- Trivy SARIF artifact from the GitHub Actions `trivy` job.
+- GitHub Actions run screenshot from the passing workflow.
+- Trivy SARIF artifact or scan output from the GitHub Actions `trivy` job.
 - Postman or Insomnia demo screenshots for portfolio presentation.
 - Live deployment URL once hosting is configured.
+
+Use `evidence-capture-guide.md` as the capture checklist.

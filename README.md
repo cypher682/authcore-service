@@ -1,5 +1,7 @@
 # AuthCore Service
 
+[![AuthCore CI](https://github.com/cypher682/authcore-service/actions/workflows/ci.yml/badge.svg)](https://github.com/cypher682/authcore-service/actions/workflows/ci.yml)
+
 Production-grade Identity and Access Management API built with FastAPI, PostgreSQL, Redis, Celery, Docker, and GitHub Actions.
 
 This is the first flagship project in the Cypher portfolio build. It targets backend engineering depth while also showing DevOps delivery practices: Docker-first development, automated tests, CI gates, image scanning, and evidence-driven documentation.
@@ -104,15 +106,17 @@ Evidence lives in `docs/evidence/`.
 | Evidence index | `docs/evidence/README.md` |
 | Redacted API smoke proof | `docs/evidence/api-smoke-evidence.json` |
 | CI validation notes | `docs/evidence/ci-evidence.md` |
+| Evidence capture guide | `docs/evidence/evidence-capture-guide.md` |
 | Postman collection | `docs/evidence/authcore.postman_collection.json` |
 
-Current local validation:
+Current validation:
 
 - `10 passed`
 - `85%` coverage
 - Ruff passed
 - Black check passed
 - Docker runtime image build passed
+- GitHub Actions CI passed on `main`
 - All Docker Compose services healthy at handoff
 
 ## CI/CD
@@ -138,7 +142,7 @@ Jobs:
 
 Core implementation is complete. Remaining evidence work:
 
-- GitHub Actions passing screenshot.
-- Trivy SARIF artifact from remote CI run.
-- Postman/Swagger UI demo screenshots.
+- GitHub Actions passing screenshot from the latest green run.
+- Trivy SARIF artifact or scan proof from the `trivy` job.
+- Postman/Swagger UI demo screenshots listed in `docs/evidence/evidence-capture-guide.md`.
 - Live deployment URL after Render deployment.
