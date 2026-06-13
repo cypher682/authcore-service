@@ -47,6 +47,10 @@ desktop.ini
 .codex/
 .agents/
 
+# Private project notes and capture checklists
+docs/evidence/ci-evidence.md
+docs/evidence/evidence-capture-guide.md
+
 # Generated archives
 *.zip
 *.tar

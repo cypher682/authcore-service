@@ -137,7 +137,6 @@ Add the live URL and screenshots to:
 
 - `README.md`
 - `docs/evidence/README.md`
-- `docs/evidence/evidence-capture-guide.md`
 
 ## Celery Worker Note
 

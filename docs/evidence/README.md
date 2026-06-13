@@ -5,8 +5,6 @@ Captured during the F2 `authcore-service` build.
 ## Available Evidence
 
 - `api-smoke-evidence.json` contains redacted API smoke proof from the running Docker stack. It stores IDs, status values, counts, and event names only; it does not store access tokens, refresh tokens, MFA secrets, or passwords.
-- `ci-evidence.md` documents the local CI-equivalent checks run before handing off Step 14.
-- `evidence-capture-guide.md` lists the screenshots and artifacts to capture before drafting portfolio content.
 - `../demo/index.html` is a local browser UI for screenshot-friendly API testing without Postman.
 - `authcore.postman_collection.json` is a Postman collection for the portfolio demo flow.
 - `../deployment/render.md` documents the Render deployment steps and required environment variables.
@@ -42,5 +40,3 @@ Captured during the F2 `authcore-service` build.
 
 - Live deployment URL once hosting is configured.
 - Render dashboard and startup log screenshots after the first successful live deploy.
-
-Use `evidence-capture-guide.md` as the capture checklist.

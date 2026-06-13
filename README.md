@@ -113,8 +113,6 @@ Evidence lives in `docs/evidence/`.
 |---|---|
 | Evidence index | `docs/evidence/README.md` |
 | Redacted API smoke proof | `docs/evidence/api-smoke-evidence.json` |
-| CI validation notes | `docs/evidence/ci-evidence.md` |
-| Evidence capture guide | `docs/evidence/evidence-capture-guide.md` |
 | Local browser demo | `docs/demo/index.html` |
 | Postman collection | `docs/evidence/authcore.postman_collection.json` |
 
@@ -189,6 +187,6 @@ Core implementation is complete. Remaining evidence work:
 
 - GitHub Actions passing screenshot from the latest green run.
 - Trivy SARIF artifact or scan proof from the `trivy` job.
-- Postman/Swagger UI demo screenshots listed in `docs/evidence/evidence-capture-guide.md`.
+- Postman/Swagger UI demo screenshots listed in `docs/evidence/README.md`.
 - Live deployment URL after Render deployment.
 - Render dashboard/log screenshots after first successful deploy.
