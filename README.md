@@ -107,6 +107,7 @@ Evidence lives in `docs/evidence/`.
 | Redacted API smoke proof | `docs/evidence/api-smoke-evidence.json` |
 | CI validation notes | `docs/evidence/ci-evidence.md` |
 | Evidence capture guide | `docs/evidence/evidence-capture-guide.md` |
+| Local browser demo | `docs/demo/index.html` |
 | Postman collection | `docs/evidence/authcore.postman_collection.json` |
 
 Deployment guide:
@@ -134,6 +135,23 @@ Jobs:
 - `test`: Docker Compose dependency startup, Alembic migration, pytest coverage.
 - `docker-build`: runtime image build.
 - `trivy`: CRITICAL vulnerability scan with SARIF upload.
+
+## Local Evidence Demo
+
+If Postman is slow, use the static browser demo:
+
+```text
+docs/demo/index.html
+```
+
+Recommended flow:
+
+1. Start the Docker stack.
+2. Open `docs/demo/index.html` in a browser.
+3. Click through the panels from top to bottom.
+4. Screenshot the response cards.
+
+The demo masks tokens, refresh tokens, MFA secrets, and provisioning URIs automatically.
 
 ## Deployment
 

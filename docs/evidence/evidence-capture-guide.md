@@ -2,6 +2,8 @@
 
 Capture these before writing the Dev.to, LinkedIn, and X content. Use clean browser windows, readable zoom, and avoid showing tokens, passwords, MFA secrets, or raw `.env` values.
 
+If Postman or CLI testing is slow, open `docs/demo/index.html` in your browser and click through the panels from top to bottom. The local demo calls the same API endpoints and masks sensitive fields in the response cards.
+
 ## Folder Naming
 
 Recommended local folder:
@@ -29,6 +31,8 @@ Recommended filenames:
 ```
 
 ## Postman API Test Workflow
+
+You can use either Postman or the local browser demo for this workflow. The endpoint order is the same.
 
 Use this workflow to personally test each endpoint and capture evidence responses.
 

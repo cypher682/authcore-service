@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AuthCore Local Evidence Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">AuthCore Service</p>
+          <h1>Local API Evidence Demo</h1>
+          <p class="hero-copy">
+            Click through the API flows locally and screenshot the response cards.
+            Tokens, refresh tokens, MFA secrets, and provisioning URIs are masked
+            automatically.
+          </p>
+        </div>
+        <div class="status-card">
+          <span id="apiStatusDot" class="dot"></span>
+          <div>
+            <strong id="apiStatusText">Not checked</strong>
+            <small id="apiStatusDetail">Run Health Check first</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Setup</h2>
+        <div class="grid">
+          <label>
+            Base URL
+            <input id="baseUrl" value="http://localhost:8000" />
+          </label>
+          <label>
+            User Email
+            <input id="userEmail" />
+          </label>
+          <label>
+            Admin Email
+            <input id="adminEmail" />
+          </label>
+          <label>
+            Password
+            <input id="password" value="Str0ngDemoPass!" />
+          </label>
+        </div>
+        <div class="actions">
+          <button id="seedValues">Generate Fresh Emails</button>
+          <button id="healthCheck">Health Check</button>
+          <a class="button ghost" href="http://localhost:8000/docs" target="_blank">Open Swagger</a>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>1. User Auth</h2>
+        <div class="actions">
+          <button id="registerUser">Register User</button>
+          <button id="loginUser">Login User</button>
+          <button id="refreshToken">Refresh Token</button>
+          <button id="reuseOldRefresh">Reuse Old Refresh Token</button>
+        </div>
+        <p class="hint">Screenshot register, login, successful refresh, and old-token reuse rejection.</p>
+      </section>
+
+      <section class="panel">
+        <h2>2. MFA</h2>
+        <div class="actions">
+          <button id="setupMfa">Setup MFA</button>
+          <button id="verifyMfa">Verify MFA Automatically</button>
+          <button id="disableMfa">Disable MFA Automatically</button>
+        </div>
+        <p class="hint">The browser generates the TOTP code from the returned secret, but the displayed secret is masked.</p>
+      </section>
+
+      <section class="panel">
+        <h2>3. Sessions</h2>
+        <div class="actions">
+          <button id="listSessions">List Sessions</button>
+          <button id="revokeSession">Revoke First Session</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>4. Admin Bootstrap</h2>
+        <div class="actions">
+          <button id="registerAdmin">Register Admin</button>
+          <button id="showPromoteCommand">Show Promote Command</button>
+          <button id="loginAdmin">Login Admin</button>
+        </div>
+        <pre id="promoteCommand" class="command-box">Register admin, then click "Show Promote Command". Run the command in Git Bash or PowerShell.</pre>
+      </section>
+
+      <section class="panel">
+        <h2>5. RBAC + Audit</h2>
+        <div class="actions">
+          <button id="ensurePermission">Ensure admin:manage Permission</button>
+          <button id="createRole">Create Demo Role</button>
+          <button id="attachPermission">Attach Permission To Role</button>
+          <button id="assignRole">Assign Role To User</button>
+          <button id="permissionCheck">RBAC Permission Check</button>
+          <button id="auditLogs">Audit Logs</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>6. Abuse Protection</h2>
+        <div class="actions">
+          <button id="badLogin">One Bad Login</button>
+          <button id="runLockout">Run Lockout Attempts</button>
+          <button id="runRateLimit">Run Bad Refresh Until 429</button>
+        </div>
+        <p class="hint">If lockout/rate limit was already triggered, wait for TTL or restart Redis for a fresh capture.</p>
+      </section>
+
+      <section class="panel response-panel">
+        <div class="response-heading">
+          <h2>Screenshot Response Cards</h2>
+          <button id="clearResponses" class="danger">Clear</button>
+        </div>
+        <div id="responses" class="responses"></div>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
