@@ -15,6 +15,7 @@ This is the first flagship project in the Cypher portfolio build. It targets bac
 - Dynamic RBAC with roles, permissions, user-role assignment, and route-level checks.
 - Structured audit logs for auth, MFA, RBAC, and session events.
 - Redis-backed rate limiting and account/IP brute-force lockout.
+- Password strength policy with optional HaveIBeenPwned k-anonymity breach checking.
 - Admin APIs for users, roles, permissions, RBAC checks, and audit log queries.
 - Docker Compose stack with FastAPI, PostgreSQL, Redis, and Celery worker.
 - Pytest suite with 83% coverage.
@@ -29,6 +30,7 @@ This is the first flagship project in the Cypher portfolio build. It targets bac
 | Cache / lockout | Redis |
 | Async worker | Celery with Redis broker |
 | Security | bcrypt, PyJWT, pyotp, SlowAPI |
+| Password checks | Local strength rules, optional HaveIBeenPwned range API |
 | Testing | pytest, pytest-asyncio, pytest-cov, httpx, Factory Boy |
 | Delivery | Docker, Docker Compose, GitHub Actions, Trivy |
 
@@ -118,7 +120,7 @@ Deployment guide:
 
 Current validation:
 
-- `11 passed`
+- `16 passed`
 - `83%` coverage
 - Ruff passed
 - Black check passed
@@ -170,6 +172,7 @@ Render deployment is prepared but the live URL is not added yet.
 - Failed login counters are tracked by account and IP in Redis.
 - Superusers bypass named permission checks; normal users require assigned roles/permissions.
 - When MFA is enabled, login returns an MFA challenge token instead of bearer tokens. The client must verify the challenge with a current TOTP code before tokens are issued.
+- Registration enforces password strength rules. Optional HaveIBeenPwned range checks can be enabled with `PASSWORD_BREACH_CHECK_ENABLED=true`.
 
 ## Portfolio Status
 

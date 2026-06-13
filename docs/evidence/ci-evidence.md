@@ -22,7 +22,7 @@ Captured on 2026-06-12 after adding the service workflow at `.github/workflows/c
 - `docker compose config` passed.
 - `docker compose exec -e RUFF_CACHE_DIR=/tmp/ruff_cache app ruff check app tests alembic` passed.
 - `docker compose exec app black --check app tests alembic` passed.
-- `docker compose exec -e COVERAGE_FILE=/tmp/.coverage app pytest --cov=app --cov-report=term-missing --cov-fail-under=80 -q` returned `11 passed` with 83% coverage.
+- `docker compose exec -e COVERAGE_FILE=/tmp/.coverage app pytest --cov=app --cov-report=term-missing --cov-fail-under=80 -q` returned `16 passed` with 83% coverage.
 - `docker build --target runtime -t authcore-service:ci-check .` passed.
 
 ## Known Warning

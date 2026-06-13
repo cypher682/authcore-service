@@ -15,6 +15,11 @@ from app.core.security import (
     verify_totp,
     verify_password,
 )
+from app.core.password_policy import (
+    PasswordPolicyError,
+    validate_password_not_pwned,
+    validate_password_strength,
+)
 from app.models.mfa import MFAConfig
 from app.models.token import RefreshTokenFamily
 from app.models.user import User
@@ -54,8 +59,10 @@ async def register_user(
         )
 
     try:
+        validate_password_strength(password, email=normalized_email)
+        await validate_password_not_pwned(password)
         hashed_password = get_password_hash(password)
-    except ValueError as exc:
+    except (PasswordPolicyError, ValueError) as exc:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=str(exc),

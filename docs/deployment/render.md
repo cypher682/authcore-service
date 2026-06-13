@@ -40,6 +40,9 @@ Set these in Render before first deploy:
 | `RATE_LIMIT_SENSITIVE` | No | `5/minute` |
 | `MAX_FAILED_ATTEMPTS` | No | `5` |
 | `LOCKOUT_TTL_SECONDS` | No | `900` |
+| `PASSWORD_BREACH_CHECK_ENABLED` | No | `false` by default; set `true` to call HaveIBeenPwned range API |
+| `PASSWORD_BREACH_CHECK_FAIL_CLOSED` | No | `false`; if `true`, registration fails when breach check is unavailable |
+| `HIBP_TIMEOUT_SECONDS` | No | `2.0` |
 | `SENTRY_DSN` | No | Optional |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `EMAILS_FROM` | No | Optional until email features are completed |
 

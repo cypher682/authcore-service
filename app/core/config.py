@@ -45,6 +45,9 @@ class Settings(BaseSettings):
 
     # HaveIBeenPwned
     hibp_api_key: Optional[str] = None
+    password_breach_check_enabled: bool = False
+    password_breach_check_fail_closed: bool = False
+    hibp_timeout_seconds: float = 2.0
 
     # Rate limiting
     rate_limit_default: str = "100/minute"

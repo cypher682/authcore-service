@@ -33,3 +33,13 @@ async def test_register_login_refresh_and_reuse_detection(
         json={"refresh_token": login["refresh_token"]},
     )
     assert reuse_response.status_code == 401
+
+
+async def test_register_rejects_weak_password(client, unique_email) -> None:
+    response = await client.post(
+        "/api/v1/auth/register",
+        json={"email": unique_email, "password": "password"},
+    )
+
+    assert response.status_code == 422
+    assert "at least 12 characters" in response.json()["detail"]

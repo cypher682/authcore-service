@@ -62,3 +62,9 @@ services:
         sync: false
       - key: HIBP_API_KEY
         sync: false
+      - key: PASSWORD_BREACH_CHECK_ENABLED
+        value: false
+      - key: PASSWORD_BREACH_CHECK_FAIL_CLOSED
+        value: false
+      - key: HIBP_TIMEOUT_SECONDS
+        value: 2.0
