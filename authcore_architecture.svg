@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" font-family="'Segoe UI', Inter, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <linearGradient id="apiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1a3a"/>
+      <stop offset="100%" style="stop-color:#2d2060"/>
+    </linearGradient>
+    <linearGradient id="pgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f2a4a"/>
+      <stop offset="100%" style="stop-color:#1a3f6f"/>
+    </linearGradient>
+    <linearGradient id="redisGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a0f0f"/>
+      <stop offset="100%" style="stop-color:#6f1a1a"/>
+    </linearGradient>
+    <linearGradient id="celeryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f3a1a"/>
+      <stop offset="100%" style="stop-color:#1a5c2b"/>
+    </linearGradient>
+    <linearGradient id="ciGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1f2e"/>
+      <stop offset="100%" style="stop-color:#252d42"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#4f9eff"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#a78bfa"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#34d399"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f87171"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="820" fill="url(#bg)"/>
+
+  <!-- Subtle grid -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff08" stroke-width="1"/>
+  </pattern>
+  <rect width="1200" height="820" fill="url(#grid)"/>
+
+  <!-- Header bar -->
+  <rect x="0" y="0" width="1200" height="70" fill="#161b22" opacity="0.95"/>
+  <rect x="0" y="68" width="1200" height="2" fill="#7c3aed" opacity="0.6"/>
+
+  <!-- Logo badge -->
+  <rect x="36" y="16" width="38" height="38" rx="8" fill="#7c3aed" filter="url(#glow)"/>
+  <text x="55" y="40" text-anchor="middle" font-size="20" fill="white" font-weight="700">AC</text>
+
+  <!-- Title -->
+  <text x="88" y="34" font-size="22" font-weight="700" fill="#e2e8f0" letter-spacing="0.5">AuthCore Service</text>
+  <text x="88" y="55" font-size="12" fill="#7c3aed">IAM API · FastAPI · PostgreSQL · Redis · Celery · Docker · GitHub Actions</text>
+
+  <!-- Version badge -->
+  <rect x="1060" y="22" width="110" height="26" rx="13" fill="#7c3aed" opacity="0.2" stroke="#7c3aed" stroke-width="1"/>
+  <text x="1115" y="39" text-anchor="middle" font-size="11" fill="#a78bfa">Python 3.13</text>
+
+  <!-- ─────────────────────────────── CLIENT ROW ─────────────────────────────── -->
+
+  <!-- Client box -->
+  <rect x="80" y="110" width="180" height="80" rx="12" fill="#161b22" stroke="#4f9eff" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="90" y="135" font-size="11" fill="#94a3b8">CLIENT</text>
+  <text x="170" y="143" text-anchor="middle" font-size="15" font-weight="600" fill="#e2e8f0">Browser /</text>
+  <text x="170" y="163" text-anchor="middle" font-size="15" font-weight="600" fill="#e2e8f0">Mobile App</text>
+
+  <!-- HaveIBeenPwned box -->
+  <rect x="940" y="110" width="200" height="80" rx="12" fill="#1a1a2e" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6,3" filter="url(#shadow)"/>
+  <text x="950" y="135" font-size="11" fill="#94a3b8">EXTERNAL · OPTIONAL</text>
+  <text x="1040" y="150" text-anchor="middle" font-size="14" font-weight="600" fill="#fbbf24">HaveIBeenPwned</text>
+  <text x="1040" y="170" text-anchor="middle" font-size="11" fill="#94a3b8">k-anonymity breach check</text>
+
+  <!-- ─────────────────────────── FASTAPI BLOCK ──────────────────────────── -->
+
+  <!-- FastAPI outer box -->
+  <rect x="80" y="230" width="1040" height="300" rx="16" fill="url(#apiGrad)" stroke="#7c3aed" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="80" y="230" width="1040" height="36" rx="16" fill="#7c3aed" opacity="0.2"/>
+  <rect x="80" y="250" width="1040" height="16" fill="#7c3aed" opacity="0.1"/>
+
+  <text x="600" y="255" text-anchor="middle" font-size="17" font-weight="700" fill="#c4b5fd">FastAPI Application  —  Python 3.13  +  Pydantic v2</text>
+
+  <!-- Security middleware bar -->
+  <rect x="105" y="272" width="990" height="28" rx="6" fill="#1e1a3a" stroke="#7c3aed" stroke-width="1" opacity="0.8"/>
+  <text x="600" y="290" text-anchor="middle" font-size="11" fill="#a78bfa">🔒  SlowAPI Rate Limiter  ·  PyJWT (access + refresh tokens)  ·  bcrypt  ·  pyotp (TOTP MFA)  ·  Refresh Token Family Tracking</text>
+
+  <!-- Route group: Auth Routes -->
+  <rect x="110" y="312" width="290" height="200" rx="10" fill="#1a1535" stroke="#8b5cf6" stroke-width="1.5"/>
+  <rect x="110" y="312" width="290" height="28" rx="10" fill="#8b5cf6" opacity="0.3"/>
+  <text x="255" y="330" text-anchor="middle" font-size="13" font-weight="600" fill="#ddd6fe">Auth Routes</text>
+  <text x="255" y="358" text-anchor="middle" font-size="10.5" fill="#a78bfa">POST /auth/register</text>
+  <text x="255" y="374" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /auth/login</text>
+  <text x="255" y="390" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /auth/refresh  (rotation)</text>
+  <text x="255" y="406" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /auth/mfa/setup</text>
+  <text x="255" y="422" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /auth/mfa/verify</text>
+  <text x="255" y="438" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /auth/mfa/challenge/verify</text>
+  <text x="255" y="454" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /auth/password/forgot+reset</text>
+  <text x="255" y="470" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /auth/verify-email</text>
+  <text x="255" y="490" text-anchor="middle" font-size="10" fill="#7c3aed">JWT · TOTP · Refresh Family</text>
+
+  <!-- Route group: User Routes -->
+  <rect x="420" y="312" width="260" height="200" rx="10" fill="#1a1535" stroke="#4f9eff" stroke-width="1.5"/>
+  <rect x="420" y="312" width="260" height="28" rx="10" fill="#4f9eff" opacity="0.25"/>
+  <text x="550" y="330" text-anchor="middle" font-size="13" font-weight="600" fill="#bfdbfe">User Routes</text>
+  <text x="550" y="358" text-anchor="middle" font-size="10.5" fill="#93c5fd">GET /users/me/sessions</text>
+  <text x="550" y="374" text-anchor="middle" font-size="10.5" fill="#94a3b8">DELETE /users/me/sessions/{id}</text>
+  <line x1="430" y1="390" x2="670" y2="390" stroke="#ffffff10" stroke-width="1"/>
+  <text x="550" y="410" text-anchor="middle" font-size="11" fill="#7dd3fc">Session Features</text>
+  <text x="550" y="428" text-anchor="middle" font-size="10" fill="#94a3b8">Device fingerprinting</text>
+  <text x="550" y="444" text-anchor="middle" font-size="10" fill="#94a3b8">Concurrent session pruning</text>
+  <text x="550" y="460" text-anchor="middle" font-size="10" fill="#94a3b8">Session revocation</text>
+  <text x="550" y="490" text-anchor="middle" font-size="10" fill="#4f9eff">Redis-backed lockout tracking</text>
+
+  <!-- Route group: Admin Routes -->
+  <rect x="700" y="312" width="400" height="200" rx="10" fill="#1a1535" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="700" y="312" width="400" height="28" rx="10" fill="#f59e0b" opacity="0.2"/>
+  <text x="900" y="330" text-anchor="middle" font-size="13" font-weight="600" fill="#fde68a">Admin Routes</text>
+  <text x="900" y="358" text-anchor="middle" font-size="10.5" fill="#fbbf24">GET  /admin/users</text>
+  <text x="900" y="374" text-anchor="middle" font-size="10.5" fill="#94a3b8">GET  /admin/audit-logs</text>
+  <text x="900" y="390" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /admin/roles</text>
+  <text x="900" y="406" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /admin/permissions</text>
+  <text x="900" y="422" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /admin/roles/{id}/permissions</text>
+  <text x="900" y="438" text-anchor="middle" font-size="10.5" fill="#94a3b8">POST /admin/users/roles</text>
+  <text x="900" y="454" text-anchor="middle" font-size="10.5" fill="#94a3b8">GET  /admin/rbac/permission-check</text>
+  <text x="900" y="490" text-anchor="middle" font-size="10" fill="#f59e0b">Dynamic RBAC · Audit Logs · Superuser</text>
+
+  <!-- ─────────────────────────── DATA LAYER ──────────────────────────── -->
+
+  <!-- PostgreSQL -->
+  <rect x="80" y="580" width="250" height="180" rx="12" fill="url(#pgGrad)" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="90" y="605" font-size="10" fill="#94a3b8">DATABASE</text>
+  <circle cx="205" cy="610" r="0" fill="none"/>
+  <!-- PG elephant icon simplified -->
+  <rect x="192" y="595" width="26" height="22" rx="5" fill="#3b82f6" opacity="0.4"/>
+  <text x="205" y="611" text-anchor="middle" font-size="14" fill="#93c5fd">🐘</text>
+  <text x="205" y="635" text-anchor="middle" font-size="15" font-weight="700" fill="#bfdbfe">PostgreSQL</text>
+  <text x="205" y="652" text-anchor="middle" font-size="10" fill="#94a3b8">SQLAlchemy 2.0 · Alembic</text>
+  <line x1="96" y1="662" x2="314" y2="662" stroke="#3b82f6" stroke-width="0.5" opacity="0.4"/>
+  <text x="205" y="680" text-anchor="middle" font-size="10" fill="#7dd3fc">Users  ·  Roles  ·  Permissions</text>
+  <text x="205" y="696" text-anchor="middle" font-size="10" fill="#94a3b8">Sessions  ·  MFA Configs</text>
+  <text x="205" y="712" text-anchor="middle" font-size="10" fill="#94a3b8">Audit Logs  ·  Token Hashes</text>
+  <text x="205" y="728" text-anchor="middle" font-size="10" fill="#94a3b8">Email Verify + PW Reset Tokens</text>
+  <text x="205" y="748" text-anchor="middle" font-size="9" fill="#3b82f6">Encrypted at rest · AES-256</text>
+
+  <!-- Redis -->
+  <rect x="355" y="580" width="240" height="180" rx="12" fill="url(#redisGrad)" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="365" y="605" font-size="10" fill="#94a3b8">CACHE · BROKER</text>
+  <text x="475" y="620" text-anchor="middle" font-size="20">🔴</text>
+  <text x="475" y="645" text-anchor="middle" font-size="15" font-weight="700" fill="#fca5a5">Redis</text>
+  <text x="475" y="662" text-anchor="middle" font-size="10" fill="#94a3b8">In-memory data store</text>
+  <line x1="366" y1="672" x2="585" y2="672" stroke="#ef4444" stroke-width="0.5" opacity="0.4"/>
+  <text x="475" y="690" text-anchor="middle" font-size="10" fill="#fca5a5">Rate limit counters</text>
+  <text x="475" y="706" text-anchor="middle" font-size="10" fill="#94a3b8">Failed-login counters</text>
+  <text x="475" y="722" text-anchor="middle" font-size="10" fill="#94a3b8">Account + IP brute-force lockout</text>
+  <text x="475" y="738" text-anchor="middle" font-size="10" fill="#94a3b8">Celery broker + result backend</text>
+  <text x="475" y="754" text-anchor="middle" font-size="9" fill="#ef4444">Reuse-detect · Family revoke</text>
+
+  <!-- Celery Worker -->
+  <rect x="620" y="580" width="240" height="180" rx="12" fill="url(#celeryGrad)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="630" y="605" font-size="10" fill="#94a3b8">ASYNC WORKER</text>
+  <text x="740" y="620" text-anchor="middle" font-size="20">⚙️</text>
+  <text x="740" y="645" text-anchor="middle" font-size="15" font-weight="700" fill="#6ee7b7">Celery Worker</text>
+  <text x="740" y="662" text-anchor="middle" font-size="10" fill="#94a3b8">Redis-backed task queue</text>
+  <line x1="630" y1="672" x2="850" y2="672" stroke="#10b981" stroke-width="0.5" opacity="0.4"/>
+  <text x="740" y="690" text-anchor="middle" font-size="10" fill="#6ee7b7">Email verification tasks</text>
+  <text x="740" y="706" text-anchor="middle" font-size="10" fill="#94a3b8">Password reset emails</text>
+  <text x="740" y="722" text-anchor="middle" font-size="10" fill="#94a3b8">Async task foundation</text>
+  <text x="740" y="750" text-anchor="middle" font-size="9" fill="#10b981">→ Email Provider (SMTP)</text>
+
+  <!-- GitHub Actions CI -->
+  <rect x="885" y="580" width="255" height="180" rx="12" fill="url(#ciGrad)" stroke="#6b7280" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="895" y="605" font-size="10" fill="#94a3b8">CI / CD</text>
+  <text x="1012" y="620" text-anchor="middle" font-size="20">⚡</text>
+  <text x="1012" y="645" text-anchor="middle" font-size="14" font-weight="700" fill="#e2e8f0">GitHub Actions</text>
+  <text x="1012" y="662" text-anchor="middle" font-size="10" fill="#94a3b8">.github/workflows/ci.yml</text>
+  <line x1="895" y1="672" x2="1130" y2="672" stroke="#6b7280" stroke-width="0.5" opacity="0.4"/>
+  <text x="1012" y="690" text-anchor="middle" font-size="10" fill="#d1d5db">lint  —  Ruff + Black</text>
+  <text x="1012" y="706" text-anchor="middle" font-size="10" fill="#94a3b8">test  —  pytest 81% coverage</text>
+  <text x="1012" y="722" text-anchor="middle" font-size="10" fill="#94a3b8">docker-build  —  runtime image</text>
+  <text x="1012" y="738" text-anchor="middle" font-size="10" fill="#94a3b8">trivy  —  CRITICAL vuln scan</text>
+  <text x="1012" y="754" text-anchor="middle" font-size="9" fill="#6b7280">SARIF upload to Security tab</text>
+
+  <!-- ─────────────────────────── ARROWS ──────────────────────────── -->
+
+  <!-- Client → FastAPI -->
+  <line x1="170" y1="190" x2="170" y2="228" stroke="#4f9eff" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <rect x="83" y="202" width="130" height="18" rx="4" fill="#0d1117" opacity="0.8"/>
+  <text x="148" y="214" text-anchor="middle" font-size="9" fill="#4f9eff">HTTPS REST + /docs Swagger</text>
+
+  <!-- FastAPI → PostgreSQL -->
+  <line x1="205" y1="530" x2="205" y2="578" stroke="#3b82f6" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <rect x="112" y="546" width="140" height="16" rx="3" fill="#0d1117" opacity="0.8"/>
+  <text x="185" y="558" text-anchor="middle" font-size="9" fill="#3b82f6">SQLAlchemy · Alembic</text>
+
+  <!-- FastAPI → Redis -->
+  <line x1="475" y1="530" x2="475" y2="578" stroke="#ef4444" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <rect x="386" y="546" width="140" height="16" rx="3" fill="#0d1117" opacity="0.8"/>
+  <text x="456" y="558" text-anchor="middle" font-size="9" fill="#ef4444">Rate limits · Lockout</text>
+
+  <!-- Redis → Celery -->
+  <line x1="595" y1="650" x2="618" y2="650" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="607" y="644" text-anchor="middle" font-size="9" fill="#10b981">tasks</text>
+
+  <!-- FastAPI → Celery (dashed) -->
+  <line x1="740" y1="530" x2="740" y2="578" stroke="#10b981" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowGreen)"/>
+  <rect x="654" y="546" width="130" height="16" rx="3" fill="#0d1117" opacity="0.8"/>
+  <text x="719" y="558" text-anchor="middle" font-size="9" fill="#10b981">enqueue email tasks</text>
+
+  <!-- FastAPI → HaveIBeenPwned (dashed) -->
+  <line x1="1040" y1="230" x2="1040" y2="192" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowGray)"/>
+  <rect x="940" y="205" width="130" height="16" rx="3" fill="#0d1117" opacity="0.8"/>
+  <text x="1005" y="217" text-anchor="middle" font-size="9" fill="#f59e0b">optional · k-anon check</text>
+
+  <!-- GitHub Actions → FastAPI (from side) -->
+  <line x1="1012" y1="530" x2="1012" y2="578" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+  <rect x="935" y="546" width="115" height="16" rx="3" fill="#0d1117" opacity="0.8"/>
+  <text x="992" y="558" text-anchor="middle" font-size="9" fill="#6b7280">on push · on PR</text>
+
+  <!-- Test coverage badge -->
+  <rect x="96" y="790" width="90" height="22" rx="11" fill="#10b981" opacity="0.15" stroke="#10b981" stroke-width="1"/>
+  <text x="141" y="805" text-anchor="middle" font-size="10" fill="#34d399">✓ 81% coverage</text>
+
+  <rect x="196" y="790" width="90" height="22" rx="11" fill="#7c3aed" opacity="0.15" stroke="#7c3aed" stroke-width="1"/>
+  <text x="241" y="805" text-anchor="middle" font-size="10" fill="#a78bfa">18 tests pass</text>
+
+  <rect x="296" y="790" width="90" height="22" rx="11" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+  <text x="341" y="805" text-anchor="middle" font-size="10" fill="#fbbf24">Ruff + Black ✓</text>
+
+  <rect x="396" y="790" width="90" height="22" rx="11" fill="#3b82f6" opacity="0.15" stroke="#3b82f6" stroke-width="1"/>
+  <text x="441" y="805" text-anchor="middle" font-size="10" fill="#60a5fa">Trivy scan ✓</text>
+
+  <text x="1140" y="805" text-anchor="end" font-size="10" fill="#4b5563">cypher682 · 2026</text>
+</svg>
