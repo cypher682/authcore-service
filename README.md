@@ -166,6 +166,10 @@ Workflow: `.github/workflows/ci.yml`
 | `docker-build` | Multi-stage runtime image build, non-root user |
 | `trivy` | CRITICAL vulnerability scan, SARIF upload to GitHub Security tab |
 
+CD: `.github/workflows/deploy.yml` — fires only after AuthCore CI succeeds on `main`, builds a
+`linux/arm64` image, pushes `:<sha>` and `:latest` to GHCR, syncs the compose file over SSH, and
+fails the run if the public `/health` does not return 200.
+
 ---
 
 ## Security Notes
@@ -184,12 +188,19 @@ Workflow: `.github/workflows/ci.yml`
 
 ## Deployment
 
-Render deployment is prepared. `render.yaml` and `scripts/start.sh` are committed.
+**Primary — VPS behind Caddy** (`deploy/`): the image is built in CI for `linux/arm64`, pushed to
+GHCR, and pulled by the host; Caddy terminates TLS and proxies to the container over a shared
+Docker network. No ports are published from the app. Guide: `docs/deployment/vps-caddy.md`.
+Target host: `authcore.141-148-69-94.sslip.io`.
+
+**Alternative — Render**: `render.yaml` and `scripts/start.sh` are committed. Guide:
+`docs/deployment/render.md`.
+
+Shared behaviour:
 
 - Set `RUN_MIGRATIONS_ON_START=true` to run `alembic upgrade head` before Uvicorn starts
 - Use `postgresql+asyncpg://...` for `DATABASE_URL`
-- Render's `PORT` environment variable is honoured automatically
-- Deployment guide: `docs/deployment/render.md`
+- `PORT` is honoured automatically (defaults to `8000`)
 
 Live URL: not deployed yet.
 

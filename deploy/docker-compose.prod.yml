@@ -1,0 +1,123 @@
+# Production stack for authcore-service on the Oracle VM (arm64).
+#
+# The image is built and pushed by .github/workflows/deploy.yml — nothing is built on the server.
+# Secrets live in /opt/apps/authcore/.env on the host (chmod 600). This file stays public.
+#
+# No ports are published: Caddy is the only thing on 80/443 and reaches the app over the shared
+# "web" network. Postgres and Redis sit on an internal-only network.
+#
+#   docker compose pull && docker compose up -d
+#
+# IMAGE_TAG pins the deployed commit (exported by the deploy workflow); "latest" is the fallback
+# for a manual start. To roll back, set IMAGE_TAG to the previous commit sha.
+
+name: authcore
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: authcore-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is missing from .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is missing from .env}
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is missing from .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - internal
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: authcore-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - internal
+    restart: unless-stopped
+
+  app:
+    image: ${IMAGE:-ghcr.io/cypher682/authcore-service}:${IMAGE_TAG:-latest}
+    container_name: authcore-app
+    env_file:
+      - .env
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      # Alembic upgrade head runs from scripts/start.sh before uvicorn.
+      RUN_MIGRATIONS_ON_START: "true"
+      # Trust X-Forwarded-For from anything on the docker networks. Safe here because the app
+      # publishes no host port: Caddy is the only way in. Without this, every request appears to
+      # come from the Caddy container and rate limits/lockout become global.
+      FORWARDED_ALLOW_IPS: "*"
+      # Service names, not localhost: these override anything inherited from .env.
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+    expose:
+      - "8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - internal
+      - web
+    restart: unless-stopped
+
+  worker:
+    image: ${IMAGE:-ghcr.io/cypher682/authcore-service}:${IMAGE_TAG:-latest}
+    container_name: authcore-worker
+    command: ["celery", "-A", "app.tasks.celery_app", "worker", "--loglevel=info", "--concurrency=2"]
+    env_file:
+      - .env
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      RUN_MIGRATIONS_ON_START: "false"
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/1
+      CELERY_RESULT_BACKEND: redis://redis:6379/2
+    depends_on:
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A app.tasks.celery_app inspect ping -d celery@$$(hostname) | grep -q pong"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - internal
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:
+
+networks:
+  # Created once by the Caddy stack: docker network create web
+  web:
+    external: true
+  internal:
+    internal: true
