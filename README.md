@@ -202,7 +202,7 @@ Shared behaviour:
 - Use `postgresql+asyncpg://...` for `DATABASE_URL`
 - `PORT` is honoured automatically (defaults to `8000`)
 
-Live URL: not deployed yet.
+**Live:** <https://authcore.141-148-69-94.sslip.io> — health at `/health`, Swagger UI at `/docs`.
 
 ---
 
