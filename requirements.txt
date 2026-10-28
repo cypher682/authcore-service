@@ -17,7 +17,7 @@ celery==5.4.0
 
 # Auth & Security
 passlib[bcrypt]==1.7.4
-pyjwt==2.10.1
+pyjwt==2.15.1
 pyotp==2.9.0
 cryptography==44.0.0
 
